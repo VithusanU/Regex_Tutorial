@@ -22,8 +22,37 @@ Matching a URL – /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/
 
 Matching an HTML Tag – /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/
 
-# Description
+Summary
+## Anchors
+The anchors used in this regex expression for matching an email are ^ , which indicates the beginning of the string and $ to indicate the ending of the string. (m) , or multiline is not enabled, so the regex will end at $. Anchors in regular expressions are special characters or constructs that define specific positions within the input text where a match must occur. They do not represent actual characters, but rather positions relative to characters in the input string. Anchors are used to ensure that a certain part of the pattern is located at a specific position in the text. There are two main types of anchors:
 
+## Quantifiers
+Quantifiers define how many times a specific character or group should occur. For instance, + indicates that the preceding element should occur one or more times.A Quantifier specifies how many instances of the previous element (which can be a character, a group, or a character class) must be present in the input string for a match to occur. They also determine whether a regex will attempt a Greedy match or a Lazy match.They control the repetition of the preceding pattern.
+
+## Bracket Expressions
+Bracket expressions, denoted by [ ], define a character set from which a single character should match. For example, [a-z0-9_.-] matches lowercase letters, digits, underscores, dots, and hyphens.
+
+Bracket expression show what set of of characters need to be matched. [a-z0-9_.-] a-z A single character between a and z that is case sensitive. 0-9 A single character between 0-9. _ Indicates that it must match the character and is case sensitive. . Must match the character and is case sensitive. - The character must match and is case sensitive.
+
+[\da-z.-] \d Indicates the character matches a digit the same as [0-9]. a-z A single character between a and z that is case sensitive. . Must match the character and is case sensitive. - The character must match and is case sensitive.
+
+[a-z.] a-z A single character between a and z that is case sensitive. . Must match the character and is case sensitive.
+
+## Greedy-and-lazy-match
+the terms "greedy" and "lazy" are more commonly associated with quantifiers like * (greedy) and *? (lazy), which control the repetition of preceding elements
+
+## Boundaries
+Instead of anchoring the regex match to the start and end of the subject, you have to specify that the start of the local part and the top-level domain cannot be part of longer words. This is easily done with a pair of word boundaries. Replace both ‹ ^ › and ‹ $ › with ‹ \b ›. For instance, ‹ ^[A-Z0-9+_.
+
+## Back-references
+We can use backreferences in a regular expression to ensure that the same value appears multiple times in a pattern. In the context of an email address, you might want to ensure that the domain name's last part (the top-level domain) matches the first part (the domain name) by using a backreference. \b[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+).\1\b
+
+In this regex: \b[A-Za-z0-9._%+-]+@: Matches the username and "@" symbol. ([A-Za-z0-9.-]+): This is a capturing group that matches the domain name. The capturing group ( ) allows you to refer back to this matched value using a backreference \1. .\1: Matches a period (.) followed by the same value that was captured in the first capturing group. This ensures that the TLD matches the domain name. \b: Word boundaries to ensure the email address is matched as a whole word.
+
+## look-ahead-and-look-behind
+We can use lookaheads and lookbehinds in a regular expression to add more sophisticated matching conditions without actually consuming characters. Here's how you could modify the regex to include a positive lookahead to ensure that the TLD is the same as the domain name: \b[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+).(?=\1)[A-Za-z]{2,}\b
+
+In this regex:
 
 Challenge this week is to create a tutorial that explains how a specific regular expression, or regex, functions by breaking down each part of the expression and describing what it does.
 
